@@ -34,14 +34,10 @@ params = Params(b=BACTH_SIZE, c=0.5, client_num=user_num, CUDA=CUDA,
 global_model_weights, global_model_visible_bias, global_model_hidden_bias, \
 precision_mean, recall_mean, f_measure_mean, ndcg_mean, hit_num_mean= FederatedLearning(params, train_set, test_set, train_set_item)
 
-# a,b,c,d = evaluate_global_model(global_model_weights, global_model_visible_bias, global_model_hidden_bias,
-#                                 user_num, item_num, train_set, test_set, train_set_item,
-#                                 CUDA=params.CUDA, rec_batch=64)
-#
-# print(a,b,c,d)
-# save_as_pt(RESULT_FOLDER, 'global_model_weights_2.pt', global_model_weights)
-# save_as_pt(RESULT_FOLDER, 'global_model_visible_bias_2.pt', global_model_visible_bias)
-# save_as_pt(RESULT_FOLDER, 'global_model_hidden_bias_2.pt', global_model_hidden_bias)
+# 需要保存模型参数，可以利用一下函数
+# save_as_pt(RESULT_FOLDER, 'global_model_weights.pt', global_model_weights)
+# save_as_pt(RESULT_FOLDER, 'global_model_visible_bias.pt', global_model_visible_bias)
+# save_as_pt(RESULT_FOLDER, 'global_model_hidden_bias.pt', global_model_hidden_bias)
 
 save_as_pkl(RESULT_FOLDER, 'precision', precision_mean)
 save_as_pkl(RESULT_FOLDER, 'recall', recall_mean)
@@ -99,21 +95,23 @@ save_as_pkl(RESULT_FOLDER, 'hit_num', hit_num_mean)
 # save_as_npy(RESULT_FOLDER, 'ground_truth.npy', test_set)
 # save_as_pkl(RESULT_FOLDER, 'rand_recommedation', re_top_K_rand_list)
 #
+
+# 读取保存的结果
 # precision_list = read_from_pkl(RESULT_FOLDER, 'precision_4.pkl')
 # recall_list = read_from_pkl(RESULT_FOLDER, 'recall_4.pkl')
 # f_measure_list = read_from_pkl(RESULT_FOLDER, 'f_measure_4.pkl')
 # ndcg_list = read_from_pkl(RESULT_FOLDER, 'NDCG_4.pkl')
 # hit_num_list = read_from_pkl(RESULT_FOLDER, 'hit_num_4.pkl')
-# # # #
-# # # #
-# print('the statistical information in each federated learning:')
-# print('\t the best performance of top@[5, 10, 15, 20]')
-# print('\t \t \t \t round \t \t metrics value')
-# print('\t \t precision \t %s ---> %s' % (np.argmax(precision_list, axis=0), max(precision_list)))
-# print('\t \t recall \t %s ---> %s' % (np.argmax(recall_list, axis=0), max(recall_list)))
-# print('\t \t f_measure \t %s ---> %s' % (np.argmax(f_measure_list, axis=0), max(f_measure_list)))
-# print('\t \t NDCG \t \t %s ---> %s' % (np.argmax(ndcg_list, axis=0), max(ndcg_list)))
-# print('\t \t hit_num \t %s ---> %s' % (np.argmax(hit_num_list, axis=0), max(hit_num_list)))
+
+
+print('the statistical information in each federated learning:')
+print('\t the best performance of top@[5, 10, 15, 20]')
+print('\t \t \t \t round \t \t metrics value')
+print('\t \t precision \t %s ---> %s' % (np.argmax(precision_mean, axis=0), max(precision_mean)))
+print('\t \t recall \t %s ---> %s' % (np.argmax(recall_mean, axis=0), max(recall_mean)))
+print('\t \t f_measure \t %s ---> %s' % (np.argmax(f_measure_mean, axis=0), max(f_measure_mean)))
+print('\t \t NDCG \t \t %s ---> %s' % (np.argmax(ndcg_mean, axis=0), max(ndcg_mean)))
+print('\t \t hit_num \t %s ---> %s' % (np.argmax(hit_num_mean, axis=0), max(hit_num_mean)))
 
 # C = 0.15 round = 100
 # C = 0.4 round = 100
